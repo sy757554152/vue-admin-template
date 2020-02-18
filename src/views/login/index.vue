@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <div></div>
+
       <div class="title-container">
         <h3 class="title">Login Form</h3>
       </div>
@@ -40,6 +40,13 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
+      <el-form-item prop="type">
+        <el-radio-group v-model="type" size="medium">
+          <el-radio-button label="学生"></el-radio-button>
+          <el-radio-button label="教师"></el-radio-button>
+          <el-radio-button label="管理员"></el-radio-button>
+        </el-radio-group>
+      </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
@@ -53,37 +60,40 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-
+// import { validUsername } from '@/utils/validate'
+// import { adminLogin } from '@/api/login'
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+    // const validateUsername = (rule, value, callback) => {
+    //   if (!validUsername(value)) {
+    //     callback(new Error('Please enter the correct user name'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
+    // const validatePassword = (rule, value, callback) => {
+    //   if (value.length < 6) {
+    //     callback(new Error('The password can not be less than 6 digits'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '20000115',
+        password: '123456789',
+        type: '1'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{ required: true, trigger: 'blur' }],
+        password: [{ required: true, trigger: 'blur' }]
+        // type: [{ required: true, trigger: 'blur' }]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      type: '学生'
     }
   },
   watch: {
@@ -106,20 +116,61 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      // this.loading = true
+      // console.log(this.loginForm)
+      // adminLogin(this.loginForm).then(res => {
+      //   console.log(res)
+      //   console.log('456465165')
+      //   this.$router.push({ path: '/dashboard' })
+      //   console.log(this.redirect)
+      //   this.loading = false
+      // }).catch(res => {
+      //   console.log(res)
+      //   this.loading = false
+      // })
+      //
+      // if ()
+      this.loading = true
+      if (this.type === '学生') {
+        this.loginForm.type = '1'
+      } else if (this.type === '教师') {
+        this.loginForm.type = '2'
+      } else if (this.type === '管理员') {
+        this.loginForm.type = '3'
+      }
+      console.log(this.loginForm)
+      this.$store.dispatch('admin/login', this.loginForm).then(() => {
+        // console.log(res)
+        this.$router.push({ path: this.redirect || '/' })
+        this.loading = false
+        console.log('asd')
+      }).catch(() => {
+        this.loading = false
       })
+      //
+      // this.loading = true
+      // this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //   console.log('success')
+      //   this.$router.push({ path: this.redirect || '/' })
+      //   this.loading = false
+      // }).catch(() => {
+      //   this.loading = false
+      // })
+      //
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('admin/login', this.loginForm).then(() => {
+      //       this.$router.push({ path: this.redirect || '/' })
+      //       this.loading = false
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
     }
   }
 }
@@ -233,5 +284,15 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+}
+</style>
+
+<style>
+.el-radio-button--medium .el-radio-button__inner {
+  padding: 10px 57.5px;
+}
+.el-radio-button__inner {
+  background: #283443;
+  color: #fff;
 }
 </style>

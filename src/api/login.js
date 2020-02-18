@@ -11,18 +11,16 @@ export function login(data) {
     }
   })
 }
-
 export function getInfo(token) {
   return request({
-    url: '/vue-admin-template/user/info',
+    url: '/admin/info',
     method: 'get',
     params: { token }
   })
 }
-
 export function logout() {
   return request({
-    url: '/vue-admin-template/user/logout',
+    url: '/admin/logout',
     method: 'post'
   })
 }

@@ -89,65 +89,55 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
-    path: '/nested',
+    path: '/input',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
+    meta: { title: '信息查询录入' },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: '/student',
+        name: 'student',
+        component: () => import('@/views/input/student'),
+        meta: { title: '学生信息查询录入' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        path: '/teacher',
+        name: 'teacher',
+        component: () => import('@/views/input/teacher'),
+        meta: { title: '教师信息查询录入' }
+      },
+      {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('@/views/input/admin'),
+        meta: { title: '管理员信息查询录入' }
       }
     ]
   },
-
+  {
+    path: '/homeworkdesign',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'homeworkdesign',
+        component: () => import('@/views/homeworkdesign/index'),
+        meta: { title: '作业设计', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/viewhomework',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'viewhomework',
+        component: () => import('@/views/viewhomework/index'),
+        meta: { title: '查看作业', icon: 'tree' }
+      }
+    ]
+  },
   {
     path: 'external-link',
     component: Layout,
