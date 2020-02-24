@@ -1,15 +1,19 @@
 <template>
   <div class="app-container">
     <el-table :data="tableData" border v-show="tableShow">
-      <el-table-column prop="_id" label="作业ID" width="180"></el-table-column>
-      <el-table-column prop="title" label="作业名称" width="180"></el-table-column>
-      <el-table-column prop="teacherNumber" label="教师工号" width="180"></el-table-column>
-      <el-table-column prop="teacherName" label="教师姓名" width="180"></el-table-column>
-      <el-table-column prop="createDate" label="创建时间" width="180"></el-table-column>
-      <el-table-column label="操作" width="180">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="handleShow(scope.$index, scope.row)">查看</el-button>
-          </template>
+      <el-table-column prop="_id" label="作业ID" width="120"></el-table-column>
+      <el-table-column prop="title" label="作业名称" width="100"></el-table-column>
+      <el-table-column prop="teacherNumber" label="教师工号" width="80"></el-table-column>
+      <el-table-column prop="teacherName" label="教师姓名" width="80"></el-table-column>
+      <el-table-column prop="state" label="年级" width="100"></el-table-column>
+      <el-table-column prop="institute" label="学院" width="160"></el-table-column>
+      <el-table-column prop="major" label="专业" width="160"></el-table-column>
+      <el-table-column prop="class" label="班级" width="80"></el-table-column>
+      <el-table-column prop="createDate" label="创建时间" width="160"></el-table-column>
+      <el-table-column label="操作" width="160">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleShow(scope.$index, scope.row)">查看</el-button>
+        </template>
         </el-table-column>
     </el-table>
     <div v-show="!tableShow" class="homework">
@@ -40,29 +44,37 @@
           <td class="title">作业要求{{index+1}}</td>
           <td class="value">{{item.value}}</td>
         </tr>
+        <tr valign="middle">
+          <td class="title">参考答案</td>
+          <td class="value">{{tableAnswer}}</td>
+        </tr>
         <tr valign="middle" v-for="(item, index) in tableScore" :key="index+'score'">
           <td class="title">评分标准{{index+1}}</td>
           <td class="value">{{item.value}}</td>
         </tr>
+        <!-- <tr valign="middle" v-for="(item, index) in tableScore" :key="index+'score'">
+          <td class="title">评分标准{{index+1}}</td>
+          <td class="value">{{item.value}}</td>
+        </tr> -->
       </table>
       <el-upload
         class="upload-demo"
-        ref="upload"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :file-list="fileList"
-        :auto-upload="false">
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        action="/abcs"
+        :before-upload="beforeUpload"
+        :on-success="videoSuccess"
+        name="file"
+        multiple>
+        <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
+      <!-- <el-button size="small" type="primary" @click="add()">点击上传</el-button> -->
     </div>
   </div>
 </template>
 
 <script>
-import { show } from '@/api/viewhomework'
+import { show, addVideo } from '@/api/viewhomework'
+import { mapGetters } from 'vuex'
 // import { getToken } from '@/utils/auth'
 export default {
   data() {
@@ -72,30 +84,87 @@ export default {
       tableIndex: 0,
       tableTitle: '',
       tableClaim: [],
+      teacherName: '',
+      teacherNUmber: '',
+      homeworkId: '',
+      tableAnswer: '',
       tableScore: [],
+      // tableScore: [],
       fileList: []
     }
   },
+  computed: {
+    ...mapGetters([
+      'institute',
+      'token',
+      'state',
+      'classes',
+      'major',
+      'name'
+    ])
+  },
   methods: {
+    open1() {
+      this.$notify({
+        title: '成功',
+        message: '提交成功',
+        type: 'success'
+      })
+    },
+    beforeUpload(file) {
+      var fd = new FormData()
+      fd.append('file', file)
+      fd.append('studentNumber', this.token.slice(0, this.token.length - 1))
+      fd.append('studentName', this.name)
+      fd.append('state', this.state)
+      fd.append('institute', this.institute)
+      fd.append('major', this.major)
+      fd.append('class', this.classes)
+      fd.append('teacherName', this.teacherName)
+      fd.append('teacherNumber', this.teacherNumber)
+      fd.append('homeworkId', this.homeworkId)
+      fd.append('flag', false)
+      // console.log(fd.get('file'))
+      // console.log(file)
+      addVideo(fd).then(res => {
+        console.log(res)
+        this.open1()
+      })
+    },
+    // add() {
+    //   addVideo().then(res => {
+    //     console.log(res)
+    //     this.open1()
+    //   })
+    // },
     handleShow(index, row) {
       this.tableIndex = index
       this.tableTitle = row.title
       this.tableClaim = row.claim
       this.tableScore = row.score
+      this.teacherName = row.teacherName
+      this.teacherNumber = row.teacherNumber
+      this.homeworkId = row._id
+      this.tableAnswer = this.tableData[this.tableIndex].answer
+      this.tableScore = this.tableData[this.tableIndex].score
+      console.log(this.tableAnswer)
       this.tableShow = !this.tableShow
+      // console.log(this.institute)
     },
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
+    videoSuccess(res) {
+      console.log(res)
     }
   },
   created() {
-    show().then(res => {
+    const data = {}
+    // data.name = this.name
+    data.state = this.state
+    // data.number = this.token.slice(0, this.token.length - 1)
+    data.institute = this.institute
+    data.major = this.major
+    data.class = this.classes
+    console.log(data)
+    show(data).then(res => {
       console.log(res)
       this.tableData = res.data
     })
@@ -189,6 +258,7 @@ export default {
     // }
     table{
       border-collapse: collapse;
+      margin-bottom: 20px;
       tr{
         td{
           text-align: center;
@@ -204,5 +274,19 @@ export default {
         }
       }
     }
+  }
+</style>
+<style>
+  .el-upload__tip{
+    font-size: 18px;
+  }
+  .upload-demo{
+    text-align: center;
+  }
+  .el-button--medium{
+    margin: 50px;
+  }
+  .el-upload-list__item-name{
+    font-size: 18px;
   }
 </style>

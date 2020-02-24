@@ -9,7 +9,11 @@ export function addHomework(data) {
       claim: data.claim,
       teacherNumber: data.teacherNumber,
       teacherName: data.teacherName,
-      score: data.score
+      score: data.score,
+      state: data.state,
+      institute: data.institute[0],
+      major: data.institute[1],
+      class: data.class
     }
   })
 }

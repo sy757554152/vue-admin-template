@@ -6,7 +6,11 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    state: '',
+    institute: '',
+    major: '',
+    classes: ''
   }
 }
 
@@ -24,6 +28,18 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_STATE: (state, num) => {
+    state.state = num
+  },
+  SET_INSTITUTE: (state, institute) => {
+    state.institute = institute
+  },
+  SET_MAJOR: (state, major) => {
+    state.major = major
+  },
+  SET_CLASS: (state, cl) => {
+    state.classes = cl
   }
 }
 
@@ -52,9 +68,13 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        const { name, avatar } = data
+        const { name, avatar, state, institute, major, classes } = data
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_STATE', state)
+        commit('SET_INSTITUTE', institute)
+        commit('SET_MAJOR', major)
+        commit('SET_CLASS', classes)
         resolve(data)
       }).catch(error => {
         reject(error)

@@ -4,6 +4,17 @@
       <el-form-item label="作业题目" :rules="{required: true, message: '题目不能为空', trigger: 'blur'}">
         <el-input v-model="homework.title"></el-input>
       </el-form-item>
+      <el-form-item label="年级" prop="state">
+        <el-select v-model="homework.state" placeholder="请选择">
+          <el-option v-for="(item,index) in 81" :key="index" :label="index+2000" :value="index+2000"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="学院专业" prop="institute">
+        <el-cascader :options="options" clearable v-model="homework.institute" placeholder="学院专业"></el-cascader>
+      </el-form-item>
+      <el-form-item label="班级" prop="class">
+        <el-input v-model="homework.class"></el-input>
+      </el-form-item>
       <el-form-item
         v-for="(item, index) in homework.claim"
         :label="'作业要求' + (index+1)"
@@ -43,6 +54,7 @@
 
 <script>
 import { addHomework, getTeacher } from '@/api/homeworkTeacher'
+import { getInstitute } from '@/api/addUser.js'
 import { mapGetters } from 'vuex'
 export default {
   computed: {
@@ -52,6 +64,7 @@ export default {
   },
   data() {
     return {
+      options: [],
       homework: {
         claim: [{
           value: ''
@@ -62,9 +75,17 @@ export default {
         teacherName: '',
         score: [{
           value: ''
-        }]
+        }],
+        class: '',
+        state: '',
+        institute: ''
       }
     }
+  },
+  created() {
+    getInstitute().then(res => {
+      this.options = res.data
+    })
   },
   methods: {
     open1() {
@@ -87,6 +108,9 @@ export default {
             this.homework.answer = ''
             this.homework.claim = [{ value: '' }]
             this.homework.score = [{ value: '' }]
+            this.homework.class = ''
+            this.homework.state = ''
+            this.homework.institute = []
           }
         })
       })
