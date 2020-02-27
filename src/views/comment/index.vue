@@ -48,7 +48,6 @@
       </div>
       <!--          评价    -->
       <div class="video-comment" v-if="videoShow">
-<!--        <video src="http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4" controls></video>-->
         <div class="video-comment-left">
           <video src="https://vdept.bdstatic.com/444363756b31535377664c466e417756/7a51585572756a50/28f62a2c7876ea25d8bc046185f7e5bc5af83a8dfb309dab34fecba02a8edbc5e27be6959fd4cce2fbacfa6c5f6c33e7.mp4?auth_key=1582436595-0-0-fda779cab6a904dfa2e840bd87672776" controls width="100%" height="624"></video>
         </div>
@@ -61,14 +60,14 @@
             <span class="title">评分标准{{index+1}}</span>
             <span class="value">{{item.value}}</span>
             <div class="choose">
-              <el-radio v-model="videoHomework.commentscore[index].value" label="1">1</el-radio>
-              <el-radio v-model="videoHomework.commentscore[index].value" label="2">2</el-radio>
-              <el-radio v-model="videoHomework.commentscore[index].value" label="3">3</el-radio>
-              <el-radio v-model="videoHomework.commentscore[index].value" label="4">4</el-radio>
-              <el-radio v-model="videoHomework.commentscore[index].value" label="5">5</el-radio>
+              <el-radio v-model="commentcontinueScore[index].value" label="1">1</el-radio>
+              <el-radio v-model="commentcontinueScore[index].value" label="2">2</el-radio>
+              <el-radio v-model="commentcontinueScore[index].value" label="3">3</el-radio>
+              <el-radio v-model="commentcontinueScore[index].value" label="4">4</el-radio>
+              <el-radio v-model="commentcontinueScore[index].value" label="5">5</el-radio>
             </div>
             <div class="content">
-              <el-input type="textarea" :rows="2" placeholder="请详细描述" v-model="videoHomework.commentcontent[index].value"></el-input>
+              <el-input type="textarea" :rows="2" placeholder="请详细描述" v-model="commentcontinueContent[index].value"></el-input>
             </div>
           </div>
           <div class="comment-btn">
@@ -123,16 +122,13 @@ export default {
         class: '',
         address: '',
         flag: false,
-        commentcontent: [{
-          value: ''
-        }],
-        commentscore: [{
-          value: ''
-        }],
+        commentcontent: [],
+        commentscore: [],
         teacherscore: '',
         tecahercontent: '',
         time: '',
-        frequency: ''
+        frequency: '',
+        title: ''
       }
     }
   },
@@ -188,17 +184,16 @@ export default {
       this.videoHomework.address = this.videoData.address
       this.videoHomework.time = mount
       this.videoHomework.frequency = 1
+      this.videoHomework.commentcontent = this.commentcontinueContent
+      this.videoHomework.commentscore = this.commentcontinueScore
+      this.videoHomework.title = this.tableTitle
       addVideoComment(this.videoHomework).then(res => {
         console.log(res)
         if (res.flag) {
           changehomework(this.videoData).then(re => {
             console.log(re)
             this.open1()
-            setTimeout(() => {
-              this.commentShow = true
-              this.tableShow = true
-              this.videoShow = false
-            },2000)
+            this.$router.go(0)
           })
         }
       })
@@ -238,11 +233,11 @@ export default {
                 console.log('5')
                 if (re) {
                   this.homework = re.data
-                  for (var i = 0; i < this.homework.score.length-1; i++) {
-                    this.videoHomework.commentscore.push({
+                  for (var i = 0; i < this.homework.score.length; i++) {
+                    this.commentcontinueContent.push({
                       value: ''
                     })
-                    this.videoHomework.commentcontent.push({
+                    this.commentcontinueScore.push({
                       value: ''
                     })
                   }

@@ -151,6 +151,54 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/teachercomment',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'teachercomment',
+        component: () => import('@/views/teachercomment/index'),
+        meta: { title: '工作过程监控与评价', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/studentview',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'studentview',
+        component: () => import('@/views/studentview/index'),
+        meta: { title: '查看老师评价', icon: 'example' }
+      }
+    ]
+  },
+  {
+    path: '/chart',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'chart',
+        component: () => import('@/views/chart/index'),
+        meta: { title: '成绩分析', icon: 'example' }
+      }
+    ]
+  },
+  {
+    path: '/changepassword',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'changepassword',
+        component: () => import('@/views/changepassword/index'),
+        meta: { title: '修改密码', icon: 'example' }
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [

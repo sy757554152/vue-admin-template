@@ -45,8 +45,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm(homework)">提交</el-button>
-        <el-button @click="addDomain">新增要求</el-button>
-        <el-button @click="addScore">新增评分标准</el-button>
+        <el-button @click="addDomain">新增要求及评分标准</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -136,8 +135,6 @@ export default {
       this.homework.claim.push({
         value: ''
       })
-    },
-    addScore() {
       this.homework.score.push({
         value: ''
       })

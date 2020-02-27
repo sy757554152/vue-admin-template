@@ -129,6 +129,9 @@ export default {
       addVideo(fd).then(res => {
         console.log(res)
         this.open1()
+        setTimeout(()=> {
+          this.$router.go(0)
+        },2000)
       })
     },
     // add() {

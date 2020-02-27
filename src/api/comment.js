@@ -64,7 +64,8 @@ export function addVideoComment(data) {
       teacherscore: data.teacherscore,
       tecahercontent: data.tecahercontent,
       time: data.time,
-      frequency: data.frequency
+      frequency: data.frequency,
+      title: data.title
     }
   })
 }
