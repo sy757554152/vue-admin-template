@@ -2,11 +2,7 @@
   <div class="dashboard-container">
     <div class="dashboard-text">
       <div class="content">姓名: {{ name }}</div>
-      <div class="content">学号: {{ studentNumber }}</div>
-      <div class="content">年级: {{ state }}</div>
-      <div class="content">学院: {{ institute }}</div>
-      <div class="content">专业: {{ major }}</div>
-      <div class="content">班级: {{ classes }}</div>
+      <div class="content">学号/工号: {{ studentNumber }}</div>
     </div>
     <div class="title">教师评价分析</div>
     <el-row :gutter="32" class="chart">
