@@ -1,0 +1,16 @@
+[
+    {
+        "studentName": "小石",
+        "studentNumber": "20172735",
+        "IdCard": "231004199811040715",
+        "sex": "男",
+        "state":2017,
+        "phone": "13514581630",
+        "political": "团员",
+        "password": "123456789",
+        "institute": "计算机科学技术学院",
+        "major": "计算机科学与技术",
+        "class": "计科一班",
+        "type": "1"
+    }
+]
