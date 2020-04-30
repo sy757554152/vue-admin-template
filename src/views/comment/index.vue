@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { show, getComment, getVideo, getHomework, addVideoComment, changehomework,changeComment } from '@/api/comment.js'
+import { show, getComment, getVideo, getHomework, addVideoComment, changehomework, changeComment } from '@/api/comment.js'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -133,15 +133,15 @@ export default {
     }
   },
   methods: {
-    changecomment(){
+    changecomment() {
       console.log('123456')
       const time = Date().split(' ')
       const day = time[2]
       const mday = day - this.starttime[2]
-      const hour = (time[4].split(':')[0])*1+mday*24 - (this.starttime[4].split(':')[0])*1
-      const minute = (time[4].split(':')[1])*1 - (this.starttime[4].split(':')[1])*1
-      const second = (time[4].split(':')[2])*1 - (this.starttime[4].split(':')[2])*1
-      const mount = hour*3600+minute*60+second
+      const hour = (time[4].split(':')[0]) * 1 + mday * 24 - (this.starttime[4].split(':')[0]) * 1
+      const minute = (time[4].split(':')[1]) * 1 - (this.starttime[4].split(':')[1]) * 1
+      const second = (time[4].split(':')[2]) * 1 - (this.starttime[4].split(':')[2]) * 1
+      const mount = hour * 3600 + minute * 60 + second
       this.commentData.time += mount
       this.commentData.frequency += 1
       changeComment(this.commentData).then(res => {
@@ -152,7 +152,7 @@ export default {
             this.commentShow = true
             this.tableShow = true
             this.videoShow = false
-          },2000)
+          }, 2000)
         }
       })
     },
@@ -167,13 +167,13 @@ export default {
       const time = Date().split(' ')
       const day = time[2]
       const mday = day - this.starttime[2]
-      const hour = (time[4].split(':')[0])*1+mday*24 - (this.starttime[4].split(':')[0])*1
-      const minute = (time[4].split(':')[1])*1 - (this.starttime[4].split(':')[1])*1
-      const second = (time[4].split(':')[2])*1 - (this.starttime[4].split(':')[2])*1
-      const mount = hour*3600+minute*60+second
+      const hour = (time[4].split(':')[0]) * 1 + mday * 24 - (this.starttime[4].split(':')[0]) * 1
+      const minute = (time[4].split(':')[1]) * 1 - (this.starttime[4].split(':')[1]) * 1
+      const second = (time[4].split(':')[2]) * 1 - (this.starttime[4].split(':')[2]) * 1
+      const mount = hour * 3600 + minute * 60 + second
 
       this.videoHomework.commentNumber = this.token.slice(0, this.token.length - 1)
-      this.videoHomework.commentName  = this.name
+      this.videoHomework.commentName = this.name
       this.videoHomework.studentNumber = this.videoData.studentNumber
       this.videoHomework.studentName = this.videoData.studentName
       this.videoHomework.homeworkId = this.homeworkId
@@ -251,13 +251,13 @@ export default {
             }
           })
         } else {
-            this.commentData = res.data
-            getHomework(this.commentData).then(res => {
-              console.log(res)
-              this.homework = res.data
-              this.starttime = Date().split(' ')
-            })
-          }
+          this.commentData = res.data
+          getHomework(this.commentData).then(res => {
+            console.log(res)
+            this.homework = res.data
+            this.starttime = Date().split(' ')
+          })
+        }
       })
     }
   },

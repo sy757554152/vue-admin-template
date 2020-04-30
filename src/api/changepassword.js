@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getUserInfo(data,password) {
+export function getUserInfo(data, password) {
   return request({
     url: '/admin/getuserinfo',
     method: 'get',

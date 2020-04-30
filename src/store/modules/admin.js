@@ -1,11 +1,12 @@
 import { login, getInfo, logout } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setType, removeType } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
+    type: '',
     avatar: '',
     state: '',
     institute: '',
@@ -40,6 +41,9 @@ const mutations = {
   },
   SET_CLASS: (state, cl) => {
     state.classes = cl
+  },
+  SET_TYPE: (state, type) => {
+    state.type = type
   }
 }
 
@@ -53,7 +57,9 @@ const actions = {
         const { data } = response
         console.log(response)
         commit('SET_TOKEN', data.token)
+        commit('SET_TYPE', data.type)
         setToken(data.token)
+        setType(data.type)
         resolve()
       }).catch((error) => {
         reject(error)
@@ -86,6 +92,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         removeToken()
+        removeType()
         resetRouter()
         commit('RESET_STATE')
         resolve()
@@ -98,6 +105,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken()
+      removeType()
       commit('RESET_STATE')
       resolve()
     })

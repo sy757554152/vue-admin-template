@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import StudentChart from './commponents/StudentChart'
+import StudentChart from './commponents/StudentChart'
 
-  export default {
-    name: 'std',
-    components: { StudentChart }
-  }
+export default {
+  name: 'Std',
+  components: { StudentChart }
+}
 </script>
 
 <style scoped>

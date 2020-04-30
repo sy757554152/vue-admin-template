@@ -83,6 +83,7 @@ router.post('/login',async(ctx)=>{
                             message: "登陆成功",
                             data: {
                                 token: res.studentNumber+res.type,
+                                type:res.type,
                                 data: res
                             }
                         }
@@ -115,6 +116,7 @@ router.post('/login',async(ctx)=>{
                             message: "登陆成功",
                             data: {
                                 token: res.teacherNumber+res.type,
+                                type:res.type,
                                 data: res
                             }
                         }
@@ -147,6 +149,7 @@ router.post('/login',async(ctx)=>{
                             message: "登陆成功",
                             data: {
                                 token: res.adminNumber+res.type,
+                                type:res.type,
                                 data: res
                             }
                         }

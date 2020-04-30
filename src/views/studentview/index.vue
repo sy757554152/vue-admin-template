@@ -38,82 +38,81 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import { show } from '@/api/comment.js'
-  import { getComment } from '@/api/studentview'
-  export default {
-    data() {
-      return {
-        tableData: [],
-        tableIndex: '',
-        homeworkId: '',
-        tableShow: true,
-        commentData: {},
-        commentTableData: [],
-        teacherComment: [],
-        flag: true
-      }
-    },
-    methods: {
-      handleShow(index, row){
-        this.tableIndex = index
-        this.homeworkId = row._id
-        let data = {}
-        data.homeworkId = this.homeworkId
-        data.commentNumber = this.token.slice(0, this.token.length - 1)
-        getComment(data).then(res => {
-          if(res.flag){
-            this.commentData = res.data
-            this.commentTableData = []
-            // console.log(this.tableData)
-            for (let i = 0;i<this.commentData.commentcontent.length; i++) {
-              let a = {}
-              a.claim = this.tableData[this.tableIndex].claim[i].value
-              a.sc = this.tableData[this.tableIndex].score[i].value
-              a.content = this.commentData.commentcontent[i].value
-              a.score = this.commentData.commentscore[i].value
-              this.commentTableData.push(a)
-            }
-            this.teacherComment = []
-            let t = {}
-            t.content = this.commentData.teachercontent
-            t.score = this.commentData.teacherscore
-            this.teacherComment.push(t)
-            this.tableShow = false
-          } else {
-            this.commentTableData = []
-            this.teacherComment = []
-            this.tableShow = false
-          }
-
-        })
-      }
-    },
-    computed: {
-      ...mapGetters([
-        'token',
-        'name',
-        'state',
-        'major',
-        'institute',
-        'classes'
-      ])
-    },
-    created() {
+import { mapGetters } from 'vuex'
+import { show } from '@/api/comment.js'
+import { getComment } from '@/api/studentview'
+export default {
+  data() {
+    return {
+      tableData: [],
+      tableIndex: '',
+      homeworkId: '',
+      tableShow: true,
+      commentData: {},
+      commentTableData: [],
+      teacherComment: [],
+      flag: true
+    }
+  },
+  methods: {
+    handleShow(index, row) {
+      this.tableIndex = index
+      this.homeworkId = row._id
       const data = {}
-      // data.name = this.name
-      data.state = this.state
-      // data.number = this.token.slice(0, this.token.length - 1)
-      data.institute = this.institute
-      data.major = this.major
-      data.class = this.classes
-      console.log(data)
-      show(data).then(res => {
-        console.log(res)
-        this.tableData = res.data
+      data.homeworkId = this.homeworkId
+      data.commentNumber = this.token.slice(0, this.token.length - 1)
+      getComment(data).then(res => {
+        if (res.flag) {
+          this.commentData = res.data
+          this.commentTableData = []
+          // console.log(this.tableData)
+          for (let i = 0; i < this.commentData.commentcontent.length; i++) {
+            const a = {}
+            a.claim = this.tableData[this.tableIndex].claim[i].value
+            a.sc = this.tableData[this.tableIndex].score[i].value
+            a.content = this.commentData.commentcontent[i].value
+            a.score = this.commentData.commentscore[i].value
+            this.commentTableData.push(a)
+          }
+          this.teacherComment = []
+          const t = {}
+          t.content = this.commentData.teachercontent
+          t.score = this.commentData.teacherscore
+          this.teacherComment.push(t)
+          this.tableShow = false
+        } else {
+          this.commentTableData = []
+          this.teacherComment = []
+          this.tableShow = false
+        }
       })
     }
+  },
+  computed: {
+    ...mapGetters([
+      'token',
+      'name',
+      'state',
+      'major',
+      'institute',
+      'classes'
+    ])
+  },
+  created() {
+    const data = {}
+    // data.name = this.name
+    data.state = this.state
+    // data.number = this.token.slice(0, this.token.length - 1)
+    data.institute = this.institute
+    data.major = this.major
+    data.class = this.classes
+    console.log(data)
+    show(data).then(res => {
+      console.log(res)
+      this.tableData = res.data
+    })
   }
+}
 </script>
 
 <style lang="scss" scoped>

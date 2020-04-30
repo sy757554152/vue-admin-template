@@ -73,98 +73,98 @@
 </template>
 
 <script>
-  import { getStudentHomework, getTeacherComment, changeTeacherComment } from '@/api/teachercomment'
-  import { mapGetters } from 'vuex'
-  export default {
-    data(){
-      return {
-        homeworkData: [],
-        tableIndex: '',
-        tableData: [],
-        tableShow: true,
-        homeworkId: '',
-        homeworkShow: true,
-        nowComment: {},
-        homeworkTitle: '',
-        commentTableData: [],
-        commentForm: {
-          commentId: '',
-          teachercontent: '',
-          teacherscore: 0,
-          flag: true
-        }
+import { getStudentHomework, getTeacherComment, changeTeacherComment } from '@/api/teachercomment'
+import { mapGetters } from 'vuex'
+export default {
+  data() {
+    return {
+      homeworkData: [],
+      tableIndex: '',
+      tableData: [],
+      tableShow: true,
+      homeworkId: '',
+      homeworkShow: true,
+      nowComment: {},
+      homeworkTitle: '',
+      commentTableData: [],
+      commentForm: {
+        commentId: '',
+        teachercontent: '',
+        teacherscore: 0,
+        flag: true
       }
+    }
+  },
+  methods: {
+    open1() {
+      this.$notify({
+        title: '成功',
+        message: '提交成功',
+        type: 'success'
+      })
     },
-    methods:{
-      open1() {
-        this.$notify({
-          title: '成功',
-          message: '提交成功',
-          type: 'success'
-        })
-      },
-      changecomment() {
-        changeTeacherComment(this.commentForm).then(res => {
-          if(res){
-            this.open1()
-            this.handleShow(this.tableIndex, this.tableData[this.tableIndex])
-            setTimeout(() => {
-              this.homeworkShow = true
-            },2000)
-          }
-        })
-      },
-      teacherCommentShow(index, row) {
-        this.nowComment = this.homeworkData[index]
-        this.commentForm.teachercontent = this.nowComment.teachercontent
-        this.commentForm.teacherscore = this.nowComment.teacherscore*1
-        this.commentForm.commentId = this.nowComment._id
-        this.commentTableData = []
-        console.log(this.nowComment)
-        // console.log(this.tableData[this.tableIndex].claim[0].value)
-        for (let i = 0;i<this.nowComment.commentcontent.length; i++) {
-          let a = {}
-          a.claim = this.tableData[this.tableIndex].claim[i].value
-          a.sc = this.tableData[this.tableIndex].score[i].value
-          a.content = this.nowComment.commentcontent[i].value
-          a.score = this.nowComment.commentscore[i].value
-          this.commentTableData.push(a)
+    changecomment() {
+      changeTeacherComment(this.commentForm).then(res => {
+        if (res) {
+          this.open1()
+          this.handleShow(this.tableIndex, this.tableData[this.tableIndex])
+          setTimeout(() => {
+            this.homeworkShow = true
+          }, 2000)
         }
-        this.homeworkShow = !this.homeworkShow
-      },
-      handleShow(index, row) {
-        this.tableIndex = index
-        this.homeworkId = row._id
-        this.homeworkTitle = row.title
-        getTeacherComment(this.homeworkId).then(res => {
-          this.homeworkData = res.data
-          for(let i = 0;i<this.homeworkData.length;i++){
-            if (this.homeworkData[i].teacherflag) {
-              this.homeworkData[i].tf = '是'
-            } else {
-              this.homeworkData[i].tf = '否'
-            }
-          }
-          this.tableShow = false
-        })
+      })
+    },
+    teacherCommentShow(index, row) {
+      this.nowComment = this.homeworkData[index]
+      this.commentForm.teachercontent = this.nowComment.teachercontent
+      this.commentForm.teacherscore = this.nowComment.teacherscore * 1
+      this.commentForm.commentId = this.nowComment._id
+      this.commentTableData = []
+      console.log(this.nowComment)
+      // console.log(this.tableData[this.tableIndex].claim[0].value)
+      for (let i = 0; i < this.nowComment.commentcontent.length; i++) {
+        const a = {}
+        a.claim = this.tableData[this.tableIndex].claim[i].value
+        a.sc = this.tableData[this.tableIndex].score[i].value
+        a.content = this.nowComment.commentcontent[i].value
+        a.score = this.nowComment.commentscore[i].value
+        this.commentTableData.push(a)
       }
+      this.homeworkShow = !this.homeworkShow
     },
-    computed: {
-      ...mapGetters([
-        'token'
-      ])
-    },
-    created() {
-      const data = {}
-      console.log(this.token)
-      data.number = this.token.slice(0, this.token.length - 1)
-      console.log(data)
-      getStudentHomework(data).then(res => {
-        console.log(res)
-        this.tableData = res.data
+    handleShow(index, row) {
+      this.tableIndex = index
+      this.homeworkId = row._id
+      this.homeworkTitle = row.title
+      getTeacherComment(this.homeworkId).then(res => {
+        this.homeworkData = res.data
+        for (let i = 0; i < this.homeworkData.length; i++) {
+          if (this.homeworkData[i].teacherflag) {
+            this.homeworkData[i].tf = '是'
+          } else {
+            this.homeworkData[i].tf = '否'
+          }
+        }
+        this.tableShow = false
       })
     }
+  },
+  computed: {
+    ...mapGetters([
+      'token'
+    ])
+  },
+  created() {
+    const data = {}
+    console.log(this.token)
+    data.number = this.token.slice(0, this.token.length - 1)
+    console.log(data)
+    getStudentHomework(data).then(res => {
+      console.log(res)
+      this.tableData = res.data
+    })
   }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -31,7 +31,7 @@ export function changeTeacherComment(data) {
     url: '/teachercomment/changeteachercomment',
     method: 'post',
     data: {
-      teachercontent:data.teachercontent,
+      teachercontent: data.teachercontent,
       teacherscore: data.teacherscore,
       commentId: data.commentId,
       flag: data.flag

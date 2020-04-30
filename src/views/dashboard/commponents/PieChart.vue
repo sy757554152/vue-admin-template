@@ -48,16 +48,16 @@ export default {
       // console.log(res)
       // console.log(this.value);
       const list = res.data
-      for (let i = 0; i < list.length;i++) {
-        if(list[i].teacherscore === '') {
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].teacherscore === '') {
           this.value[0].value++
         } else if (list[i].teacherscore == '1') {
           this.value[1].value++
-        }else if (list[i].teacherscore === '2') {
+        } else if (list[i].teacherscore === '2') {
           this.value[2].value++
-        }else if (list[i].teacherscore === '3') {
+        } else if (list[i].teacherscore === '3') {
           this.value[3].value++
-        }else if (list[i].teacherscore === '4') {
+        } else if (list[i].teacherscore === '4') {
           this.value[4].value++
         } else if (list[i].teacherscore === '5') {
           this.value[5].value++
@@ -66,8 +66,6 @@ export default {
       }
       this.initChart()
     })
-
-
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -88,7 +86,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['未评价', '1分', '2分', '3分', '4分','5分']
+          data: ['未评价', '1分', '2分', '3分', '4分', '5分']
         },
         series: [
           {

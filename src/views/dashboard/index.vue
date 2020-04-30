@@ -22,8 +22,8 @@ import PieChart from './commponents/PieChart'
 import StudentChart from './commponents/StudentChart'
 
 export default {
-  data(){
-    return{
+  data() {
+    return {
       studentNumber: ''
     }
   },
