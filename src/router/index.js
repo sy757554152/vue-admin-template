@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { store } from '@/store/index'
 import Cookies from 'js-cookie'
-import { getToken, setToken, removeToken, setType, removeType } from '@/utils/auth'
+import { getType } from '@/utils/auth'
 Vue.use(Router)
 
 /* Layout */
@@ -211,7 +211,7 @@ router.beforeEach((to, from, next) => {
   // next:一定要调用该方法来 resolve 这个钩子
   // console.log(to.meta.roles.length)
   // console.log(to.path)
-  const type = getToken()
+  const type = getType()
   if (to.path === '/noroles/index') {
     next()
   }
